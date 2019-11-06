@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Quizz</string>
+    <string name="testStrMenu">This is the main menu</string>
+    <string name="str_btn_play">Play available Quizzs</string>
+    <string name="str_btn_edit">Edit downloaded Quizzs</string>
+    <string name="str_button_download">Download new Quizzs</string>
 </resources>
