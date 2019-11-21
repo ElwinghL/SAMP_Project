@@ -1,12 +1,18 @@
 package fr.perso.iiens.net.quizz
 
+import android.app.Activity
 import android.os.AsyncTask
 import android.util.Log
+import com.google.gson.Gson
+import fr.perso.iiens.net.quizz.Menus.MainMenu
+import fr.perso.iiens.net.quizzStruct.Question
+import fr.perso.iiens.net.quizzStruct.Quizz
+import fr.perso.iiens.net.quizzStruct.Quizzs
 import org.w3c.dom.Document
 import org.w3c.dom.Element
-import org.w3c.dom.Node
-import org.w3c.dom.NodeList
 import java.io.BufferedReader
+import java.io.File
+import java.io.FileWriter
 import java.io.InputStream
 import java.lang.Exception
 import java.net.HttpURLConnection
@@ -14,18 +20,19 @@ import java.net.URL
 import javax.xml.parsers.DocumentBuilder
 import javax.xml.parsers.DocumentBuilderFactory
 
-class DownloadTask(var mainMenu: MainMenu) {
-    var downloadTaskBG = DownloadTaskBG()
+class DownloadTask(var mainMenu: MainMenu, var link: String) {
+    private var downloadTaskBG = DownloadTaskBG()
     var quizzs = ArrayList<Quizz>()
+    var rQuizzs: Quizzs? = null
 
     fun execute() {
         downloadTaskBG.execute()
     }
 
-    inner class DownloadTaskBG : AsyncTask<Void, Void, Quizzs>() {
+    inner class DownloadTaskBG : AsyncTask<Void, Void, Quizzs?>() {
 
 
-        fun getPage(addressURL: String) {
+        private fun getPage(addressURL: String) {
             val bufferedReader: BufferedReader? = null
             var urlConnection: HttpURLConnection? = null
 
@@ -43,61 +50,81 @@ class DownloadTask(var mainMenu: MainMenu) {
 
                     doc.documentElement.normalize()
 
-                    val xmlQuizzs: Element = doc.getElementsByTagName("Quizzs").item(0) as Element
-                    val xmlQuizz = xmlQuizzs.getElementsByTagName("Quizz")
+                    val nodeQuizzs = doc.getElementsByTagName("Quizzs")
+                    val eltQuizzs = nodeQuizzs.item(0) as Element
 
-                    for (iQuizz in 0..xmlQuizz.length) {
-                        val xmlQuizzElt = xmlQuizz.item(iQuizz) as Element
-                        val quizzName = xmlQuizzElt.getAttribute("type")
-                        val xmlQuestions = xmlQuizzElt.getElementsByTagName("Question")
-
+                    val nodeQuizz = eltQuizzs.getElementsByTagName("Quizz")
+                    for (iQuizz in 0 until nodeQuizz.length) {
+                        val eltQuizz = nodeQuizz.item(iQuizz) as Element
+                        val quizzName = eltQuizz.getAttribute("type")
+                        Log.d("TestQuizz", quizzName)
                         val questions = ArrayList<Question>()
-                        for (iQuestion in 0..xmlQuestions.length) {
-                            val xmlQuestionElt = xmlQuestions.item(iQuestion) as Element
-                            val question = xmlQuestionElt.firstChild.nodeValue
+                        val nodeQuestions = eltQuizz.getElementsByTagName("Question")
+
+                        for (iQuestion in 0 until nodeQuestions.length) {
+                            val eltQuestion = nodeQuestions.item(iQuestion) as Element
+                            val questionName = eltQuestion.firstChild.nodeValue
+                            Log.d("TestQuestions", questionName)
                             val truth =
-                                (xmlQuestionElt.getElementsByTagName("Reponse").item(0) as Element).getAttribute(
+                                (eltQuestion.getElementsByTagName("Reponse").item(0) as Element).getAttribute(
                                     "valeur"
-                                ).toInt()
-                            val xmlAnswerElt =
-                                xmlQuestionElt.getElementsByTagName("Propositions").item(0) as Element
-                            val answers = ArrayList<String>()
+                                ).toInt() - 1
+                            Log.d("TestTruth",truth.toString())
+                            val eltPropositions = eltQuestion.getElementsByTagName("Propositions").item(0) as Element
+                            val propositions = ArrayList<String>()
+                            val nodePropostition = eltPropositions.getElementsByTagName("Proposition")
 
-                            val xmlAnswers = xmlAnswerElt.getElementsByTagName("Proposition")
-                            for (iAnswer in 0..xmlAnswers.length) {
-                                answers.add(xmlAnswers.item(iAnswer).firstChild.nodeValue)
+                            for (iProposition in 0 until nodePropostition.length) {
+                                val eltProposition = nodePropostition.item(iProposition) as Element
+                                val propositionName = eltProposition.firstChild.nodeValue
+                                Log.d("TestProposition",propositionName)
+
+                                propositions.add(propositionName)
                             }
-                            val jQuest = Question(question, answers, truth)
-                            questions.add(jQuest)
+                            questions.add(Question(questionName,propositions,truth))
                         }
-                        val jQuizz = Quizz(quizzName, questions)
-                        quizzs.add(jQuizz)
+                        quizzs.add(Quizz(quizzName,questions))
                     }
+                    rQuizzs = Quizzs(quizzs)
                 }
-
             } catch (e: Exception) {
-                //e.printStackTrace()
+                Log.d("TestFail", e.message)
+                e.printStackTrace()
             } finally {
-                if (bufferedReader != null) {
-                    bufferedReader.close()
-                } else {
-                    // Nothing
-                }
-
+                bufferedReader?.close()
                 urlConnection?.disconnect()
             }
             return
         }
 
-        override fun doInBackground(vararg params: Void): Quizzs {
-            getPage("https://dept-info.univ-fcomte.fr/joomla/images/CR0700/Quizzs.xml")
-            Log.d("Test2",quizzs.size.toString())
-            return Quizzs(quizzs)
+        override fun doInBackground(vararg params: Void): Quizzs? {
+            getPage(link)
+            Log.d("Test2", quizzs.size.toString())
+            return rQuizzs
         }
 
-        override fun onPostExecute(quizzs: Quizzs) {
-            Log.d("Test2",quizzs.getQuizzs.size.toString())
-            mainMenu.printQuizzs(quizzs)
+        override fun onPostExecute(quizzs: Quizzs?) {
+            Log.d("Test2", quizzs?.quizz?.size.toString())
+            if (quizzs != null) {
+                (mainMenu as MainMenu).printQuizzs(quizzs)
+            }
+
+            val gson = Gson()
+            val json = gson.toJson(quizzs)
+            val context = mainMenu.applicationContext
+            val test = """
+                {
+                    
+                }
+            """.trimIndent()
+
+            File(context.filesDir,"state.json").writeText(json)
+            Log.d("TestJSON",File(context.filesDir,"state.json").readText())
+
+            if (quizzs != null) {
+                mainMenu.curentQuizzs = quizzs
+            }
+
         }
     }
 }
