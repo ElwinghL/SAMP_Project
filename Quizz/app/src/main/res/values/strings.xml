@@ -13,4 +13,5 @@
     <string name="add_question">Add Question</string>
     <string name="error_addAnswersQty">You can\'t add more answers</string>
     <string name="edit_AnswerText">Your Answer here</string>
+    <string name="question_added">Question added at the bottom of your quizz</string>
 </resources>
