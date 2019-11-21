@@ -109,22 +109,15 @@ class DownloadTask(var mainMenu: MainMenu, var link: String) {
                 (mainMenu as MainMenu).printQuizzs(quizzs)
             }
 
-            val gson = Gson()
-            val json = gson.toJson(quizzs)
-            val context = mainMenu.applicationContext
-            val test = """
-                {
-                    
-                }
-            """.trimIndent()
-
-            File(context.filesDir,"state.json").writeText(json)
-            Log.d("TestJSON",File(context.filesDir,"state.json").readText())
-
             if (quizzs != null) {
-                mainMenu.curentQuizzs = quizzs
+                if (mainMenu.curentQuizzs.isEmpty()) {
+                    mainMenu.curentQuizzs = quizzs
+                }else {
+                    mainMenu.curentQuizzs.concatQuizzs(quizzs)
+                }
             }
 
+            saveQuizz(mainMenu.curentQuizzs,mainMenu.applicationContext)
         }
     }
 }

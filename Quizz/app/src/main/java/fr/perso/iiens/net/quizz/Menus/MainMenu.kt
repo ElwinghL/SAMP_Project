@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Window
 import com.beust.klaxon.Klaxon
 import fr.perso.iiens.net.quizz.DownloadTask
 import fr.perso.iiens.net.quizz.R
@@ -20,9 +21,11 @@ class MainMenu : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //Suppression de la barre de titre
+        requestWindowFeature(Window.FEATURE_NO_TITLE)
+        supportActionBar?.hide()
         context = this.applicationContext
         setContentView(R.layout.activity_main)
-
         //Création des boutons de jeu
         btn_Play.setOnClickListener {
             startActivity(Intent(this, PlayMenu::class.java))
@@ -30,18 +33,22 @@ class MainMenu : AppCompatActivity() {
         btn_Edit.setOnClickListener {
             startActivity(Intent(this, EditMenu::class.java))
         }
+        btn_Download.setOnClickListener {
+            DownloadTask(
+                this,
+                "https://dept-info.univ-fcomte.fr/joomla/images/CR0700/Quizzs.xml"
+            ).execute()
+        }
 
         if (File(context.filesDir, "state.json").exists()) {
             curentQuizzs = Klaxon().parse<Quizzs>(File(context.filesDir, "state.json"))!!
-            printQuizzs(curentQuizzs,"TestAbs")
+            printQuizzs(curentQuizzs, "TestAbs")
         } else {
             DownloadTask(
                 this,
                 "https://dept-info.univ-fcomte.fr/joomla/images/CR0700/Quizzs.xml"
             ).execute()
-
         }
-
     }
 
     public fun printQuizzs(quizzs: Quizzs, tag: String = "Test") {

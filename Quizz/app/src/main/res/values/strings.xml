@@ -4,4 +4,13 @@
     <string name="str_btn_play">Play available Quizzs</string>
     <string name="str_btn_edit">Edit downloaded Quizzs</string>
     <string name="str_button_download">Download new Quizzs</string>
+    <string name="edit_btn_edit">Edit</string>
+    <string name="edit_btn_remove">Remove</string>
+    <string name="edit_text_name">Name of The Quizz</string>
+    <string name="editMenu_Text">Edit the following Quizzs</string>
+    <string name="edit_text_question">Here is your question</string>
+    <string name="edit_QuizzText">Edit the selected Quizz</string>
+    <string name="add_question">Add Question</string>
+    <string name="error_addAnswersQty">You can\'t add more answers</string>
+    <string name="edit_AnswerText">Your Answer here</string>
 </resources>

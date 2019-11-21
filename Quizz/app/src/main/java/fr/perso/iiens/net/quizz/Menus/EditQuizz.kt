@@ -1,39 +1,39 @@
 package fr.perso.iiens.net.quizz.Menus
 
 import android.content.Context
-import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.beust.klaxon.Klaxon
-import fr.perso.iiens.net.quizz.Menus.Adapters.EditMenuAdapter
+import fr.perso.iiens.net.quizz.Menus.Adapters.EditQuizzAdapter
 import fr.perso.iiens.net.quizz.R
 import fr.perso.iiens.net.quizz.saveQuizz
+import fr.perso.iiens.net.quizzStruct.Quizz
 import fr.perso.iiens.net.quizzStruct.Quizzs
 import kotlinx.android.synthetic.main.activity_edit_menu.*
+import kotlinx.android.synthetic.main.activity_edit_quizz.*
 import java.io.File
 import java.util.*
-import kotlin.collections.ArrayList
 
-
-class EditMenu : AppCompatActivity() {
+class EditQuizz : AppCompatActivity() {
 
     lateinit var quizzs: Quizzs
     lateinit var context: Context
-
+    lateinit var quizz : Quizz
     private fun updateList() {
-        edit_ViewQuizzs.adapter?.notifyItemInserted(edit_ViewQuizzs.adapter!!.itemCount)
+        edit_ViewQuestionList.adapter?.notifyItemInserted(edit_ViewQuestionList.adapter!!.itemCount)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_edit_menu)
+        setContentView(R.layout.activity_edit_quizz)
         context = this.applicationContext
         quizzs = Klaxon().parse<Quizzs>(File(this.applicationContext.filesDir, "state.json"))!!
-
-        edit_ViewQuizzs.layoutManager = LinearLayoutManager(this)
-        edit_ViewQuizzs.adapter = EditMenuAdapter(this, quizzs)
+        quizz = quizzs.quizz[intent.getSerializableExtra("KEY_QUIZZ") as Int]
+        edit_ViewQuestionList.layoutManager = LinearLayoutManager(this)
+        edit_ViewQuestionList.adapter = EditQuizzAdapter(this,quizzs,quizz)
 
         val itemTouchCallback = object : ItemTouchHelper.SimpleCallback(
             ItemTouchHelper.UP or ItemTouchHelper.DOWN,
@@ -68,6 +68,7 @@ class EditMenu : AppCompatActivity() {
 
         ItemTouchHelper(itemTouchCallback).attachToRecyclerView(edit_ViewQuizzs)
         updateList()
+
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
