@@ -31,7 +31,7 @@ class EditMenuAdapter (var editMenu : EditMenu, var quizzs: Quizzs) : RecyclerVi
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.text.text = quizzs.quizz[position].name
+        holder.text.text = quizzs.quizz[position].name.trim()
         holder.text.addTextChangedListener(object:TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
@@ -42,7 +42,6 @@ class EditMenuAdapter (var editMenu : EditMenu, var quizzs: Quizzs) : RecyclerVi
             }
 
             override fun afterTextChanged(s: Editable?) {
-                saveQuizz(quizzs,editMenu.applicationContext)
                 editMenu.quizzs = quizzs
             }
         })
@@ -55,7 +54,6 @@ class EditMenuAdapter (var editMenu : EditMenu, var quizzs: Quizzs) : RecyclerVi
 
         holder.btn_DelQuizz.setOnClickListener {
             quizzs.removeQuizzByName(quizzs.quizz[position].name)
-            saveQuizz(quizzs,editMenu.applicationContext)
             editMenu.quizzs = quizzs
             this.notifyDataSetChanged()
         }

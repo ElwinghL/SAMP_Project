@@ -1,9 +1,7 @@
 package fr.perso.iiens.net.quizz
 
-import android.app.Activity
 import android.os.AsyncTask
 import android.util.Log
-import com.google.gson.Gson
 import fr.perso.iiens.net.quizz.Menus.MainMenu
 import fr.perso.iiens.net.quizzStruct.Question
 import fr.perso.iiens.net.quizzStruct.Quizz
@@ -11,8 +9,6 @@ import fr.perso.iiens.net.quizzStruct.Quizzs
 import org.w3c.dom.Document
 import org.w3c.dom.Element
 import java.io.BufferedReader
-import java.io.File
-import java.io.FileWriter
 import java.io.InputStream
 import java.lang.Exception
 import java.net.HttpURLConnection
@@ -37,7 +33,7 @@ class DownloadTask(var mainMenu: MainMenu, var link: String) {
             var urlConnection: HttpURLConnection? = null
 
             try {
-                val url: URL = URL(addressURL)
+                val url = URL(addressURL)
                 urlConnection = url.openConnection() as HttpURLConnection
                 val responseCode: Int = urlConnection.responseCode
 
@@ -63,7 +59,7 @@ class DownloadTask(var mainMenu: MainMenu, var link: String) {
 
                         for (iQuestion in 0 until nodeQuestions.length) {
                             val eltQuestion = nodeQuestions.item(iQuestion) as Element
-                            val questionName = eltQuestion.firstChild.nodeValue
+                            val questionName = eltQuestion.firstChild.nodeValue.trim()
                             Log.d("TestQuestions", questionName)
                             val truth =
                                 (eltQuestion.getElementsByTagName("Reponse").item(0) as Element).getAttribute(
@@ -76,7 +72,7 @@ class DownloadTask(var mainMenu: MainMenu, var link: String) {
 
                             for (iProposition in 0 until nodePropostition.length) {
                                 val eltProposition = nodePropostition.item(iProposition) as Element
-                                val propositionName = eltProposition.firstChild.nodeValue
+                                val propositionName = eltProposition.firstChild.nodeValue.trim()
                                 Log.d("TestProposition",propositionName)
 
                                 propositions.add(propositionName)
@@ -88,7 +84,6 @@ class DownloadTask(var mainMenu: MainMenu, var link: String) {
                     rQuizzs = Quizzs(quizzs)
                 }
             } catch (e: Exception) {
-                Log.d("TestFail", e.message)
                 e.printStackTrace()
             } finally {
                 bufferedReader?.close()
@@ -106,18 +101,18 @@ class DownloadTask(var mainMenu: MainMenu, var link: String) {
         override fun onPostExecute(quizzs: Quizzs?) {
             Log.d("Test2", quizzs?.quizz?.size.toString())
             if (quizzs != null) {
-                (mainMenu as MainMenu).printQuizzs(quizzs)
+                mainMenu.printQuizzs(quizzs)
             }
 
             if (quizzs != null) {
-                if (mainMenu.curentQuizzs.isEmpty()) {
-                    mainMenu.curentQuizzs = quizzs
+                if (mainMenu.currentQuizzs.isEmpty()) {
+                    mainMenu.currentQuizzs = quizzs
                 }else {
-                    mainMenu.curentQuizzs.concatQuizzs(quizzs)
+                    mainMenu.currentQuizzs.concatQuizzs(quizzs)
                 }
             }
 
-            saveQuizz(mainMenu.curentQuizzs,mainMenu.applicationContext)
+            saveQuizz(mainMenu.currentQuizzs,mainMenu.applicationContext)
         }
     }
 }

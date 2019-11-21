@@ -9,14 +9,14 @@ import android.view.Window
 import com.beust.klaxon.Klaxon
 import fr.perso.iiens.net.quizz.DownloadTask
 import fr.perso.iiens.net.quizz.R
-import fr.perso.iiens.net.quizzStruct.Quizz
+import fr.perso.iiens.net.quizz.saveQuizz
 import fr.perso.iiens.net.quizzStruct.Quizzs
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.File
 
 class MainMenu : AppCompatActivity() {
 
-    public var curentQuizzs: Quizzs = Quizzs(ArrayList())
+    var currentQuizzs: Quizzs = Quizzs(ArrayList())
     private lateinit var context: Context
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,8 +41,8 @@ class MainMenu : AppCompatActivity() {
         }
 
         if (File(context.filesDir, "state.json").exists()) {
-            curentQuizzs = Klaxon().parse<Quizzs>(File(context.filesDir, "state.json"))!!
-            printQuizzs(curentQuizzs, "TestAbs")
+            currentQuizzs = Klaxon().parse<Quizzs>(File(context.filesDir, "state.json"))!!
+            printQuizzs(currentQuizzs, "TestAbs")
         } else {
             DownloadTask(
                 this,
@@ -51,7 +51,7 @@ class MainMenu : AppCompatActivity() {
         }
     }
 
-    public fun printQuizzs(quizzs: Quizzs, tag: String = "Test") {
+    fun printQuizzs(quizzs: Quizzs, tag: String = "Test") {
         Log.d(tag, "Quizzs :")
         for (quizz in quizzs.quizz) {
             Log.d(tag, "Quizz : " + quizz.name)

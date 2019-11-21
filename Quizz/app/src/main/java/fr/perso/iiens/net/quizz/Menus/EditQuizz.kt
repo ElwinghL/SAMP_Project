@@ -3,6 +3,7 @@ package fr.perso.iiens.net.quizz.Menus
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -10,12 +11,13 @@ import com.beust.klaxon.Klaxon
 import fr.perso.iiens.net.quizz.Menus.Adapters.EditQuizzAdapter
 import fr.perso.iiens.net.quizz.R
 import fr.perso.iiens.net.quizz.saveQuizz
+import fr.perso.iiens.net.quizzStruct.Question
 import fr.perso.iiens.net.quizzStruct.Quizz
 import fr.perso.iiens.net.quizzStruct.Quizzs
-import kotlinx.android.synthetic.main.activity_edit_menu.*
 import kotlinx.android.synthetic.main.activity_edit_quizz.*
 import java.io.File
 import java.util.*
+import kotlin.collections.ArrayList
 
 class EditQuizz : AppCompatActivity() {
 
@@ -34,7 +36,18 @@ class EditQuizz : AppCompatActivity() {
         quizz = quizzs.quizz[intent.getSerializableExtra("KEY_QUIZZ") as Int]
         edit_ViewQuestionList.layoutManager = LinearLayoutManager(this)
         edit_ViewQuestionList.adapter = EditQuizzAdapter(this,quizzs,quizz)
+        //Ajout d'une question
+        btn_addQuestion.setOnClickListener {
+            val defaultAnswers = ArrayList<String>()
+            defaultAnswers.add("Good Answer")
+            defaultAnswers.add("Wrong Answer")
+            val defaultQuestion = Question("Your new Question",defaultAnswers,0)
 
+            quizz.questions.add(defaultQuestion)
+            updateList()
+            Toast.makeText(this,R.string.question_added,Toast.LENGTH_LONG).show()
+        }
+        //Gestion de l'affichage des questions -> Déplacement
         val itemTouchCallback = object : ItemTouchHelper.SimpleCallback(
             ItemTouchHelper.UP or ItemTouchHelper.DOWN,
             0
@@ -48,11 +61,11 @@ class EditQuizz : AppCompatActivity() {
                     false
                 } else {
                     Collections.swap(
-                        quizzs.quizz,
+                        quizz.questions,
                         viewHolder.adapterPosition,
                         target.adapterPosition
                     )
-                    if (edit_ViewQuizzs.adapter!!.hasObservers()) edit_ViewQuizzs.adapter!!.notifyItemMoved(
+                    if (edit_ViewQuestionList.adapter!!.hasObservers()) edit_ViewQuestionList.adapter!!.notifyItemMoved(
                         viewHolder.adapterPosition,
                         target.adapterPosition
                     )
@@ -65,8 +78,7 @@ class EditQuizz : AppCompatActivity() {
 
             }
         }
-
-        ItemTouchHelper(itemTouchCallback).attachToRecyclerView(edit_ViewQuizzs)
+        ItemTouchHelper(itemTouchCallback).attachToRecyclerView(edit_ViewQuestionList)
         updateList()
 
     }

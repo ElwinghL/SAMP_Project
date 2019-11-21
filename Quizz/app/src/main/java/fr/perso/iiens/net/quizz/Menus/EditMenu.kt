@@ -14,7 +14,6 @@ import fr.perso.iiens.net.quizzStruct.Quizzs
 import kotlinx.android.synthetic.main.activity_edit_menu.*
 import java.io.File
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class EditMenu : AppCompatActivity() {

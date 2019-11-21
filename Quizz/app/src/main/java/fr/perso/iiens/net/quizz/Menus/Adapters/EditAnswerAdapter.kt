@@ -32,7 +32,7 @@ class EditAnswerAdapter(var editQuizz : EditQuizz, var question: Question, var q
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.text.text = question.answers[position]
+        holder.text.text = question.answers[position].trim()
         holder.rad_Truth.isChecked = question.truth == position
         holder.text.addTextChangedListener(object: TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
