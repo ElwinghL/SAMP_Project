@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import fr.perso.iiens.net.quizz.Menus.HighscoreMenu
@@ -41,9 +42,17 @@ class PlayMenuAdapter (var playMenu: PlayMenu, var quizzs: Quizzs) : RecyclerVie
         }
 
         holder.btn_highscore.setOnClickListener {
-            val intent = Intent(playMenu,HighscoreMenu::class.java)
-            intent.putExtra("KEY_QUIZZ",position)
-            startActivity(playMenu,intent,null)
+            if (quizzs.quizz[position].highscore.size > 0 ) {
+                val intent = Intent(playMenu,HighscoreMenu::class.java)
+                intent.putExtra("KEY_QUIZZ",position)
+                startActivity(playMenu,intent,null)
+            } else {
+                Toast.makeText(
+                    playMenu,
+                    "You must have at least played this quizz once",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
         }
     }
 
