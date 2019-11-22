@@ -1,0 +1,30 @@
+# Création du build
+
+## Méthode débug
+
+* Brancher l'appareil android (minimum android 4.4) à l'ordinateur
+* Ouvrir le projet Quizz dans Android Studio
+* Si tout se passe bien, aucune configuration n'est requise
+* Appuyez sur Maj+F10
+
+## Méthode APK
+
+### Debug Version
+
+* Ouvrir le projet Quiz dans Android Studio
+* Aller dans Build -> Build Bundle(s)/APK(s) -> Build APK(s)
+* Votre APK est ensuite disponible dans app/build/outputs/apk/debug
+
+### Release Version
+
+* Ouvrir le projet Quiz dans Android Studio
+* Aller dans Build -> Generate Signed Bundle/APK -> Build APK(s)
+* Cocher APK
+* Faire Choose existing
+* Aller dans Quizz\app\src\main\res\raw\keystore.jks
+* Taper "samp_project" dans les champs de mot de passe
+* Taper "key0" dans le champ d'alias
+* Appuyer sur Next
+* Choisir Release et Signature V2
+* Finish
+* Votre APK est ensuite disponible dans app/release
