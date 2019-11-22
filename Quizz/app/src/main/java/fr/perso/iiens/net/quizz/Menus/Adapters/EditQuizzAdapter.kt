@@ -1,5 +1,6 @@
 package fr.perso.iiens.net.quizz.Menus.Adapters
 
+import android.graphics.Color
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -33,6 +34,9 @@ class EditQuizzAdapter(var editQuizz: EditQuizz, var quizzs: Quizzs, var quizz: 
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        if (position % 2 == 0) {
+            holder.itemView.setBackgroundColor(Color.parseColor("#C0C0C0"))
+        }
         holder.text.text = quizz.questions[position].question.trim()
         holder.text.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {

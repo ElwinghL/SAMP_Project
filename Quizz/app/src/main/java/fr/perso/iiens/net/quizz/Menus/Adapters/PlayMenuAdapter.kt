@@ -1,6 +1,7 @@
 package fr.perso.iiens.net.quizz.Menus.Adapters
 
 import android.content.Intent
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,6 +29,9 @@ class PlayMenuAdapter (var playMenu: PlayMenu, var quizzs: Quizzs) : RecyclerVie
         return ViewHolder(v)
     }
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        if (position % 2 == 0) {
+            holder.itemView.setBackgroundColor(Color.parseColor("#C0C0C0"))
+        }
         holder.text.text = quizzs.quizz[position].name.trim()
 
         holder.btn_play.setOnClickListener {

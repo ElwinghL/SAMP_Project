@@ -1,5 +1,6 @@
 package fr.perso.iiens.net.quizz.Menus.Adapters
 
+import android.graphics.Color
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -32,6 +33,11 @@ class EditAnswerAdapter(var editQuizz : EditQuizz, var question: Question, var q
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        if (position % 2 == 0) {
+            holder.itemView.setBackgroundColor(Color.parseColor("#B0B0B0"))
+        } else {
+            holder.itemView.setBackgroundColor(Color.parseColor("#A0A0A0"))
+        }
         holder.text.text = question.answers[position].trim()
         holder.rad_Truth.isChecked = question.truth == position
         holder.text.addTextChangedListener(object: TextWatcher {

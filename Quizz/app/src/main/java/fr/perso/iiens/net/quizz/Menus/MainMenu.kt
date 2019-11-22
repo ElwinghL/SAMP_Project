@@ -2,6 +2,7 @@ package fr.perso.iiens.net.quizz.Menus
 
 import android.content.Context
 import android.content.Intent
+import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -19,9 +20,11 @@ class MainMenu : AppCompatActivity() {
 
     var currentQuizzs: Quizzs = Quizzs(ArrayList())
     private lateinit var context: Context
-    var started = false
+    private lateinit var mMediaPlayer: MediaPlayer
+    private var shouldExecuteOnResume: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        shouldExecuteOnResume = false
         super.onCreate(savedInstanceState)
         //Suppression de la barre de titre
         requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -46,12 +49,26 @@ class MainMenu : AppCompatActivity() {
             ).execute()
         }
         loadQuizz()
-
+        mMediaPlayer = MediaPlayer.create(this, R.raw.jingle)
+        mMediaPlayer.isLooping = true
+        mMediaPlayer.start()
     }
 
     override fun onResume() {
-        loadQuizz()
+        if(shouldExecuteOnResume) {
+            loadQuizz()
+            mMediaPlayer = MediaPlayer.create(this, R.raw.jingle)
+            mMediaPlayer.isLooping = true
+            mMediaPlayer.start()
+        } else {
+            shouldExecuteOnResume = true
+        }
         super.onResume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mMediaPlayer.stop()
     }
 
     fun printQuizzs(quizzs: Quizzs, tag: String = "Test") {

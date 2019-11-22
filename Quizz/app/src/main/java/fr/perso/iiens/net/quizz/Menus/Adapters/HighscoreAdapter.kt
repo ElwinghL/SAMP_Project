@@ -1,5 +1,6 @@
 package fr.perso.iiens.net.quizz.Menus.Adapters
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,6 +25,9 @@ class HighscoreAdapter (var highscoreMenu: HighscoreMenu, var highscore: ArrayLi
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        if (position % 2 == 0) {
+            holder.itemView.setBackgroundColor(Color.parseColor("#C0C0C0"))
+        }
         holder.pseudo.text = highscore[position].pseudo
         val s = StringBuilder()
         s.append(highscore[position].score).append("/").append(highscore[position].on)

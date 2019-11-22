@@ -16,6 +16,8 @@ class Game(val playGame: PlayGame, var quizz: Quizz) {
         for (aQuestion in quizz.questions) {
             rows.add(Row(this, aQuestion))
         }
+        playGame.progressBar.progress = 0
+        playGame.progressBar.max = rows.size
         currentRow = rows.first()
         displayRow()
 
@@ -43,6 +45,7 @@ class Game(val playGame: PlayGame, var quizz: Quizz) {
     }
 
     fun displayRow() {
+        playGame.progressBar.progress = rows.indexOf(currentRow)
         playGame.displayQuestion(currentRow.question)
     }
 }
