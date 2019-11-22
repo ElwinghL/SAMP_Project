@@ -1,12 +1,14 @@
 <resources>
     <!-- Name -->
-    <string name="name_app">Quizz</string>
+    <string name="name_app">Quizzs\'Party</string>
     <string name="name_menu_welcome">This is the main menu</string>
     <string name="name_quizz">Name of The Quizz</string>
     <string name="name_menu_edit_quizzs">Edit the following Quizzs</string>
     <string name="name_question">Here is your question</string>
     <string name="name_menu_edit_quizz">Edit the selected Quizz</string>
     <string name="name_answer">Your Answer here</string>
+    <string name="name_game_pseudo">Pseudo</string>
+    <string name="name_game_score_title">Your Score :</string>
     <!-- Buttons -->
     <string name="btn_play">Play available Quizzs</string>
     <string name="btn_edit_quizzs">Edit downloaded Quizzs</string>
@@ -15,10 +17,16 @@
     <string name="btn_remove">Remove</string>
     <string name="btn_add_quizz">Add Quizz</string>
     <string name="btn_add_question">Add Question</string>
+    <string name="btn_play_highscore">Highscore</string>
+    <string name="btn_play_quizz">Play</string>
+    <string name="btn_game_next">Next</string>
+    <string name="btn_game_start">Start</string>
+    <string name="btn_game_save_score">Save</string>
     <!-- Infos -->
     <string name="info_addQuestion">Question added at the bottom of your quizz</string>
     <string name="info_addQuizz">Quizz added at the bottom of your quizzs</string>
     <!-- Errors -->
+    <string name="error_play_qty">You need at least one quizz to play</string>
     <string name="error_addQuizz_name">There is already a quizz named like this</string>
     <string name="error_addAnswers_qty">You can\'t add more answers</string>
     <string name="error_removeQuestion_qty">You can\'t remove more questions</string>

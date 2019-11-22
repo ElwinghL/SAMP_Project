@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Window
+import android.widget.Toast
 import com.beust.klaxon.Klaxon
 import fr.perso.iiens.net.quizz.DownloadTask
 import fr.perso.iiens.net.quizz.R
@@ -18,6 +19,7 @@ class MainMenu : AppCompatActivity() {
 
     var currentQuizzs: Quizzs = Quizzs(ArrayList())
     private lateinit var context: Context
+    var started = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +30,11 @@ class MainMenu : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         //Création des boutons de jeu
         btn_Play.setOnClickListener {
-            startActivity(Intent(this, PlayMenu::class.java))
+            if (currentQuizzs.quizz.size > 1) {
+                startActivity(Intent(this, PlayMenu::class.java))
+            } else {
+                Toast.makeText(this,R.string.error_play_qty,Toast.LENGTH_LONG).show()
+            }
         }
         btn_Edit.setOnClickListener {
             startActivity(Intent(this, EditMenu::class.java))
@@ -39,16 +45,13 @@ class MainMenu : AppCompatActivity() {
                 "https://dept-info.univ-fcomte.fr/joomla/images/CR0700/Quizzs.xml"
             ).execute()
         }
+        loadQuizz()
 
-        if (File(context.filesDir, "state.json").exists()) {
-            currentQuizzs = Klaxon().parse<Quizzs>(File(context.filesDir, "state.json"))!!
-            printQuizzs(currentQuizzs, "TestAbs")
-        } else {
-            DownloadTask(
-                this,
-                "https://dept-info.univ-fcomte.fr/joomla/images/CR0700/Quizzs.xml"
-            ).execute()
-        }
+    }
+
+    override fun onResume() {
+        loadQuizz()
+        super.onResume()
     }
 
     fun printQuizzs(quizzs: Quizzs, tag: String = "Test") {
@@ -62,6 +65,18 @@ class MainMenu : AppCompatActivity() {
                     Log.d(tag, "\t\t Réponse $bonus" + question.answers[i])
                 }
             }
+        }
+    }
+
+    fun loadQuizz() {
+        if (File(context.filesDir, "state.json").exists()) {
+            currentQuizzs = Klaxon().parse<Quizzs>(File(context.filesDir, "state.json"))!!
+            printQuizzs(currentQuizzs, "TestAbs")
+        } else {
+            DownloadTask(
+                this,
+                "https://dept-info.univ-fcomte.fr/joomla/images/CR0700/Quizzs.xml"
+            ).execute()
         }
     }
 }

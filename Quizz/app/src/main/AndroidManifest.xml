@@ -12,12 +12,27 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/name_app"
         android:roundIcon="@mipmap/ic_launcher_round"
+        android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Menus.EditQuizz"></activity>
-        <activity android:name=".Menus.EditMenu" />
-        <activity android:name=".Menus.PlayMenu" />
-        <activity android:name=".Menus.MainMenu">
+        <activity
+            android:name=".Menus.HighscoreMenu"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Menus.PlayGame"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Menus.EditQuizz"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Menus.EditMenu"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Menus.PlayMenu"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Menus.MainMenu"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
