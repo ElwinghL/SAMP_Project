@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import fr.perso.iiens.net.quizz.Menus.EditMenu
@@ -53,13 +54,18 @@ class EditMenuAdapter (var editMenu : EditMenu, var quizzs: Quizzs) : RecyclerVi
         }
 
         holder.btn_DelQuizz.setOnClickListener {
-            quizzs.removeQuizzByName(quizzs.quizz[position].name)
-            editMenu.quizzs = quizzs
-            this.notifyDataSetChanged()
+            removeQuizz(position)
         }
     }
 
     override fun getItemCount(): Int {
         return quizzs.quizz.size
+    }
+
+    private fun removeQuizz(index:Int) {
+        quizzs.quizz.removeAt(index)
+        editMenu.quizzs = quizzs
+        this.notifyDataSetChanged()
+        saveQuizz(quizzs,editMenu)
     }
 }

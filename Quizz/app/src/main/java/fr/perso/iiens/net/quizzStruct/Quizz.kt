@@ -1,11 +1,16 @@
 package fr.perso.iiens.net.quizzStruct
 
-import java.io.Serializable
+class Quizz(var name: String, var questions: ArrayList<Question>) {
+    var highscore: ArrayList<Score> = ArrayList()
 
-class Quizz(var name: String, var questions: ArrayList<Question>) : Serializable {
-    var highscore : ArrayList<Score> = ArrayList()
-
-    fun addScore(score:Score) {
+    fun addScore(score: Score) {
         highscore.add(score)
     }
+}
+
+fun defaultQuizz(): Quizz {
+    val questions = ArrayList<Question>()
+    questions.add(defaultQuestion())
+
+    return Quizz("New Quizz", questions)
 }

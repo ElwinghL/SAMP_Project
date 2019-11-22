@@ -11,11 +11,11 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:ems="10"
-        android:inputType="textMultiLine|textCapSentences"
+        android:inputType="textMultiLine|textCapSentences|textNoSuggestions"
         android:maxWidth="325dp"
         android:maxLines="2"
         android:minWidth="80dp"
-        android:text="@string/edit_AnswerText" />
+        android:text="@string/name_answer" />
 
     <RadioButton
         android:id="@+id/rad_correctAnswer"

@@ -19,11 +19,11 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:inputType="textMultiLine|textCapSentences"
+            android:inputType="textMultiLine|textCapSentences|textNoSuggestions"
             android:maxWidth="325dp"
             android:maxLines="4"
             android:minWidth="80dp"
-            android:text="@string/edit_text_question" />
+            android:text="@string/name_question" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -35,7 +35,7 @@
                 android:id="@+id/btn_removeQuestion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/edit_btn_remove" />
+                android:text="@string/btn_remove" />
 
             <Button
                 android:id="@+id/btn_addAnswer"

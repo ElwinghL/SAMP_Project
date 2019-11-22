@@ -1,17 +1,25 @@
 <resources>
-    <string name="app_name">Quizz</string>
-    <string name="testStrMenu">This is the main menu</string>
-    <string name="str_btn_play">Play available Quizzs</string>
-    <string name="str_btn_edit">Edit downloaded Quizzs</string>
-    <string name="str_button_download">Download new Quizzs</string>
-    <string name="edit_btn_edit">Edit</string>
-    <string name="edit_btn_remove">Remove</string>
-    <string name="edit_text_name">Name of The Quizz</string>
-    <string name="editMenu_Text">Edit the following Quizzs</string>
-    <string name="edit_text_question">Here is your question</string>
-    <string name="edit_QuizzText">Edit the selected Quizz</string>
-    <string name="add_question">Add Question</string>
-    <string name="error_addAnswersQty">You can\'t add more answers</string>
-    <string name="edit_AnswerText">Your Answer here</string>
-    <string name="question_added">Question added at the bottom of your quizz</string>
+    <!-- Name -->
+    <string name="name_app">Quizz</string>
+    <string name="name_menu_welcome">This is the main menu</string>
+    <string name="name_quizz">Name of The Quizz</string>
+    <string name="name_menu_edit_quizzs">Edit the following Quizzs</string>
+    <string name="name_question">Here is your question</string>
+    <string name="name_menu_edit_quizz">Edit the selected Quizz</string>
+    <string name="name_answer">Your Answer here</string>
+    <!-- Buttons -->
+    <string name="btn_play">Play available Quizzs</string>
+    <string name="btn_edit_quizzs">Edit downloaded Quizzs</string>
+    <string name="btn_download">Download new Quizzs</string>
+    <string name="btn_edit">Edit</string>
+    <string name="btn_remove">Remove</string>
+    <string name="btn_add_quizz">Add Quizz</string>
+    <string name="btn_add_question">Add Question</string>
+    <!-- Infos -->
+    <string name="info_addQuestion">Question added at the bottom of your quizz</string>
+    <string name="info_addQuizz">Quizz added at the bottom of your quizzs</string>
+    <!-- Errors -->
+    <string name="error_addQuizz_name">There is already a quizz named like this</string>
+    <string name="error_addAnswers_qty">You can\'t add more answers</string>
+    <string name="error_removeQuestion_qty">You can\'t remove more questions</string>
 </resources>

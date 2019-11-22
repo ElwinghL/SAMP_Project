@@ -2,7 +2,6 @@ package fr.perso.iiens.net.quizz.Menus.Adapters
 
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,8 +16,6 @@ import fr.perso.iiens.net.quizz.R
 import fr.perso.iiens.net.quizz.saveQuizz
 import fr.perso.iiens.net.quizzStruct.Quizz
 import fr.perso.iiens.net.quizzStruct.Quizzs
-import kotlinx.android.synthetic.main.activity_edit_menu.*
-import java.util.*
 
 class EditQuizzAdapter(var editQuizz: EditQuizz, var quizzs: Quizzs, var quizz: Quizz) :
     RecyclerView.Adapter<EditQuizzAdapter.ViewHolder>() {
@@ -91,21 +88,29 @@ class EditQuizzAdapter(var editQuizz: EditQuizz, var quizzs: Quizzs, var quizz: 
                 holder.viewAnswerList.adapter?.notifyDataSetChanged()
             } else {
                 Toast.makeText(
-                    editQuizz, editQuizz.getString(R.string.error_addAnswersQty),
+                    editQuizz, editQuizz.getString(R.string.error_addAnswers_qty),
                     Toast.LENGTH_LONG
                 ).show()
             }
         }
 
         holder.btn_DelQuestion.setOnClickListener {
-            Log.d("TestPosition",position.toString())
-            quizz.questions.remove(quizz.questions[position])
-            this.notifyItemRemoved(position)
-            editQuizz.quizzs = quizzs
+            removeQuestion(position)
         }
     }
 
     override fun getItemCount(): Int {
         return quizz.questions.size
+    }
+
+    private fun removeQuestion(index:Int) {
+        if (this.itemCount > 1) {
+            quizz.questions.removeAt(index)
+            quizzs.replaceQuizz(quizz)
+            this.notifyDataSetChanged()
+            saveQuizz(quizzs,editQuizz)
+        } else {
+            Toast.makeText(editQuizz,R.string.error_removeQuestion_qty,Toast.LENGTH_LONG).show()
+        }
     }
 }

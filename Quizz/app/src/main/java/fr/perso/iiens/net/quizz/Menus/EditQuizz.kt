@@ -14,6 +14,7 @@ import fr.perso.iiens.net.quizz.saveQuizz
 import fr.perso.iiens.net.quizzStruct.Question
 import fr.perso.iiens.net.quizzStruct.Quizz
 import fr.perso.iiens.net.quizzStruct.Quizzs
+import fr.perso.iiens.net.quizzStruct.defaultQuestion
 import kotlinx.android.synthetic.main.activity_edit_quizz.*
 import java.io.File
 import java.util.*
@@ -24,7 +25,7 @@ class EditQuizz : AppCompatActivity() {
     lateinit var quizzs: Quizzs
     lateinit var context: Context
     lateinit var quizz : Quizz
-    private fun updateList() {
+    fun updateList() {
         edit_ViewQuestionList.adapter?.notifyItemInserted(edit_ViewQuestionList.adapter!!.itemCount)
     }
 
@@ -38,14 +39,11 @@ class EditQuizz : AppCompatActivity() {
         edit_ViewQuestionList.adapter = EditQuizzAdapter(this,quizzs,quizz)
         //Ajout d'une question
         btn_addQuestion.setOnClickListener {
-            val defaultAnswers = ArrayList<String>()
-            defaultAnswers.add("Good Answer")
-            defaultAnswers.add("Wrong Answer")
-            val defaultQuestion = Question("Your new Question",defaultAnswers,0)
+            quizz.questions.add(defaultQuestion())
+            saveQuizz(quizzs, context)
 
-            quizz.questions.add(defaultQuestion)
             updateList()
-            Toast.makeText(this,R.string.question_added,Toast.LENGTH_LONG).show()
+            Toast.makeText(this,R.string.info_addQuestion,Toast.LENGTH_LONG).show()
         }
         //Gestion de l'affichage des questions -> Déplacement
         val itemTouchCallback = object : ItemTouchHelper.SimpleCallback(
